@@ -1,7 +1,5 @@
 # Api_Gallery_MVVM
 Online App Gallery for Photo by MVVM
-# News_Article_MVVM
-News app with MVVM
 
 <h3>Detail</h3>
 This is a piece of app gallery software for displaying and favorite list with share option for photos through the "Thecatapi.com" site API.
