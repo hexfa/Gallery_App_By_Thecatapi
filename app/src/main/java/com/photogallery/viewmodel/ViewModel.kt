@@ -20,10 +20,8 @@ class ViewModel @Inject constructor(
     val photoGalleryItemLivedataFirstPage = MutableLiveData<PhotoList>()
     val photoGalleryItemLivedataNextPage = MutableLiveData<PhotoList>()
     val favoriteList = MutableLiveData(false)
-    private val readOfCash = MutableLiveData(false)
 
     init {
-        readOfCash.value = false
         repo.getPhoto(0)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
