@@ -6,14 +6,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.photogallery.R
-import com.photogallery.adapter.PhotoGalleryAdapter
-import com.photogallery.adapter.PhotoGalleryFavoriteAdapter
+import com.photogallery.view.adapter.PhotoGalleryAdapter
+import com.photogallery.view.adapter.PhotoGalleryFavoriteAdapter
 import com.photogallery.databinding.FragmentHomeBinding
+import com.photogallery.view.util.PaginationScrollListener
 import com.photogallery.viewmodel.ViewModel
 
-class HomeFragment : Fragment() {
 
+class HomeFragment : Fragment() {
+    private val pageStart: Int = 1
+    private var isLoading: Boolean = false
+    private var isLastPage: Boolean = false
+    private var currentPage: Int = pageStart
     private lateinit var mBinding: FragmentHomeBinding
     private val photoGalleryViewModel: ViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
@@ -50,8 +56,7 @@ class HomeFragment : Fragment() {
                 }
                 if (photoGalleryViewModel.favoriteList.value == true) {
                     val adapter = PhotoGalleryFavoriteAdapter(
-                        photoGalleryViewModel.getFavorites(),
-                        photoGalleryViewModel
+                        photoGalleryViewModel.getFavorites()
                     )
                     mBinding.recyclerViewPhotoGalleryFavorite.adapter = adapter
                     mBinding.recyclerViewPhotoGalleryFavorite.visibility = View.VISIBLE
@@ -62,30 +67,55 @@ class HomeFragment : Fragment() {
                 }
                 true
             }
-            R.id.refresh -> {
-                photoGalleryViewModel.getPhotosRemote(0)
-                photoGalleryViewModel.getPhotosRemote(0)
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mBinding.recyclerViewPhotoGallery.layoutManager = GridLayoutManager(
-            context,
-            2
+        val linearLayoutManager = LinearLayoutManager(
+            context, LinearLayoutManager.VERTICAL, false
         )
+        mBinding.recyclerViewPhotoGallery.layoutManager = linearLayoutManager
+        val adapter = PhotoGalleryAdapter()
+        mBinding.recyclerViewPhotoGallery.adapter = adapter
         mBinding.recyclerViewPhotoGalleryFavorite.layoutManager = GridLayoutManager(
             context,
             2
         )
 
-        photoGalleryViewModel.photoGalleryItemLivedata.observe(viewLifecycleOwner) {
-            val adapter = PhotoGalleryAdapter()
+        photoGalleryViewModel.photoGalleryItemLivedataFirstPage.observe(viewLifecycleOwner) {
+            mBinding.progressbar.visibility = View.GONE
             adapter.addAll(it)
-            mBinding.recyclerViewPhotoGallery.adapter = adapter
+            adapter.addLoadingFooter()
         }
+        photoGalleryViewModel.photoGalleryItemLivedataNextPage.observe(viewLifecycleOwner) {
+            adapter.removeLoadingFooter()
+            isLoading = false
+            adapter.addAll(it)
+            adapter.addLoadingFooter()
+        }
+        mBinding.recyclerViewPhotoGallery.addOnScrollListener(object :
+            PaginationScrollListener(mBinding.recyclerViewPhotoGallery.layoutManager as LinearLayoutManager) {
+            override fun loadMoreItems() {
+                isLoading = true
+                currentPage += 1
+                loadNextPage()
+            }
+
+
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+        })
+    }
+
+    private fun loadNextPage() {
+        photoGalleryViewModel.getPhotosRemote(currentPage)
     }
 }

@@ -1,3 +1,3 @@
-package com.photogallery.data.model
+package com.photogallery.model.local
 
 class PhotoList : ArrayList<PhotoListItem>()

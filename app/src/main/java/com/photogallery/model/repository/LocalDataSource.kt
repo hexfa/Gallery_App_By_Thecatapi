@@ -1,8 +1,8 @@
-package com.photogallery.data.repository
+package com.photogallery.model.repository
 
 
-import com.photogallery.data.local.AppDataBase
-import com.photogallery.data.local.PhotoEntity
+import com.photogallery.model.local.AppDataBase
+import com.photogallery.model.local.PhotoEntity
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(private val database: AppDataBase) {

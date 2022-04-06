@@ -1,4 +1,4 @@
-package com.photogallery.data.local
+package com.photogallery.model.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class PhotoEntity
     (
     @PrimaryKey var id: String,
-    var bitmap: String?,
-    var title: String,
+    var height: Int,
+    var url: String,
+    var width: Int,
 )

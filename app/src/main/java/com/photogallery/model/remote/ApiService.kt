@@ -1,8 +1,8 @@
-package com.photogallery.data.remote
+package com.photogallery.model.remote
 
 
-import com.photogallery.data.model.PhotoList
-import com.photogallery.data.model.PhotoListItem
+import com.photogallery.model.local.PhotoList
+import com.photogallery.model.local.PhotoListItem
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

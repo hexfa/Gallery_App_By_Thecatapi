@@ -1,8 +1,8 @@
-package com.photogallery.data.repository
+package com.photogallery.model.repository
 
-import com.photogallery.data.model.PhotoList
-import com.photogallery.data.model.PhotoListItem
-import com.photogallery.data.remote.ApiService
+import com.photogallery.model.local.PhotoList
+import com.photogallery.model.local.PhotoListItem
+import com.photogallery.model.remote.ApiService
 import io.reactivex.Single
 import javax.inject.Inject
 

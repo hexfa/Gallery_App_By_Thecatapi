@@ -2,8 +2,8 @@ package com.photogallery.di
 
 import android.app.Application
 import androidx.room.Room
-import com.photogallery.data.local.AppDataBase
-import com.photogallery.data.local.PhotoDao
+import com.photogallery.model.local.AppDataBase
+import com.photogallery.model.local.PhotoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

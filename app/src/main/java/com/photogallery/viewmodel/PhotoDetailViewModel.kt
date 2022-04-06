@@ -2,9 +2,9 @@ package com.photogallery.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.photogallery.data.local.PhotoEntity
-import com.photogallery.data.model.PhotoListItem
-import com.photogallery.data.repository.PhotoGalleryRepositoryImp
+import com.photogallery.model.local.PhotoEntity
+import com.photogallery.model.local.PhotoListItem
+import com.photogallery.model.repository.PhotoGalleryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoDetailViewModel @Inject constructor(
     private val
-    repo: PhotoGalleryRepositoryImp,
+    repo: PhotoGalleryRepository,
     application: Application,
 ) : PhotoGalleryViewModel(application) {
     private var photoId: String? = null

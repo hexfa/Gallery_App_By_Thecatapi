@@ -1,4 +1,4 @@
-package com.photogallery.data.model
+package com.photogallery.model.local
 
 data class PhotoListItem(
     val breeds: List<Any>,

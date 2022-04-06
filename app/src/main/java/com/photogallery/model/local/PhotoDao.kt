@@ -1,4 +1,4 @@
-package com.photogallery.data.local
+package com.photogallery.model.local
 
 import androidx.room.*
 

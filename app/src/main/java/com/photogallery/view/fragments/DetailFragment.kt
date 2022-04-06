@@ -2,15 +2,13 @@ package com.photogallery.view.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.photogallery.R
-import com.photogallery.data.local.PhotoEntity
+import com.photogallery.model.local.PhotoEntity
 import com.photogallery.databinding.FragmentDetailBinding
 import com.photogallery.viewmodel.PhotoDetailViewModel
 import com.squareup.picasso.Picasso
@@ -22,7 +20,7 @@ class DetailFragment : Fragment() {
     private lateinit var photoEntity: PhotoEntity
     private lateinit var item: MenuItem
 
-    val photoGalleryViewModel: PhotoDetailViewModel by hiltNavGraphViewModels(R.id.nav_graph)
+    private val photoGalleryViewModel: PhotoDetailViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +49,7 @@ class DetailFragment : Fragment() {
                 .load(it.url)
                 .placeholder(R.mipmap.ic_place_holder)
                 .into(mBinding.img)
+            photoEntity = PhotoEntity(it.id, it.height, it.url, it.width)
             mBinding.detailTitleTextView.text = "height:${it.height},width:${it.width}"
 
         }
@@ -63,27 +62,7 @@ class DetailFragment : Fragment() {
                 Picasso.get()
                     .load(it.url)
                     .placeholder(R.mipmap.ic_place_holder)
-                    .into(object : com.squareup.picasso.Target {
-                        override fun onBitmapFailed(
-                            e: java.lang.Exception?,
-                            errorDrawable: Drawable?,
-                        ) {
-                            e?.printStackTrace()
-                        }
-
-                        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                            mBinding.img.setImageDrawable(placeHolderDrawable)
-                        }
-
-                        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                            mBinding.img.setImageBitmap(bitmap)
-                            photoEntity = PhotoEntity(
-                                it.id,
-                                photoGalleryViewModel.bitMapToString(bitmap),
-                                "height:${it.height},width:${it.width}"
-                            )
-                        }
-                    })
+                    .into(mBinding.img)
                 mBinding.detailTitleTextView.text = "height:${it.height},width:${it.width}"
             }
 

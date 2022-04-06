@@ -1,7 +1,7 @@
 package com.photogallery.di
 
-import com.photogallery.data.remote.ApiService
-import com.photogallery.data.remote.BASE_URL
+import com.photogallery.model.remote.ApiService
+import com.photogallery.model.remote.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
