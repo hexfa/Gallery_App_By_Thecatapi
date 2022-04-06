@@ -14,7 +14,7 @@ Note: If the software does not show anything, please get your specific token fro
 <br><h3>Technologies:</h3>
 1.MVVM
 <br>2.View Binding
-<br>3.View Data
+<br>3.Data Binding
 <br>4.Retrofit
 <br>5.RX2
 <br>6.Dagger Hilt
