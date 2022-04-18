@@ -21,7 +21,7 @@ object DataBaseModule {
             application,
             AppDataBase::class.java,
             AppDataBase.DB_NAME
-        ).allowMainThreadQueries().build()
+        ).build()
     }
 
     @Provides

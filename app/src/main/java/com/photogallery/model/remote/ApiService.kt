@@ -1,8 +1,6 @@
 package com.photogallery.model.remote
 
 
-import com.photogallery.model.local.PhotoList
-import com.photogallery.model.local.PhotoListItem
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,5 +11,5 @@ interface ApiService {
     fun getPhotos(@Query("page") page: Int): Single<PhotoList>
 
     @GET("images/{image_id}?&x-api-key=d7d0baf8-af1e-4068-9b3c-47b6accfba0f")
-    fun getPhotoDetail(@Path("image_id") id: String): Single<PhotoListItem>
+    fun getPhotoDetail(@Path("image_id") id: String): Single<PhotoItem>
 }

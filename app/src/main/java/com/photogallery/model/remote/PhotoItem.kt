@@ -1,6 +1,6 @@
-package com.photogallery.model.local
+package com.photogallery.model.remote
 
-data class PhotoListItem(
+data class PhotoItem(
     val breeds: List<Any>,
     val height: Int,
     val id: String,

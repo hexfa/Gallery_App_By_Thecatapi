@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.photogallery.R
-import com.photogallery.model.local.PhotoEntity
 import com.photogallery.databinding.FragmentDetailBinding
 import com.photogallery.viewmodel.PhotoDetailViewModel
 import com.squareup.picasso.Picasso
@@ -17,7 +16,6 @@ import com.squareup.picasso.Picasso
 class DetailFragment : Fragment() {
     private lateinit var mBinding: FragmentDetailBinding
     private var photoId: String = ""
-    private lateinit var photoEntity: PhotoEntity
     private lateinit var item: MenuItem
 
     private val photoGalleryViewModel: PhotoDetailViewModel by hiltNavGraphViewModels(R.id.nav_graph)
@@ -44,15 +42,6 @@ class DetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        photoGalleryViewModel.photoDetail.observe(viewLifecycleOwner) {
-            Picasso.get()
-                .load(it.url)
-                .placeholder(R.mipmap.ic_place_holder)
-                .into(mBinding.img)
-            photoEntity = PhotoEntity(it.id, it.height, it.url, it.width)
-            mBinding.detailTitleTextView.text = "height:${it.height},width:${it.width}"
-
-        }
 
         with(photoGalleryViewModel) {
             checkFavoriteStatus(photoId)
@@ -86,7 +75,7 @@ class DetailFragment : Fragment() {
     }
 
     @SuppressLint("QueryPermissionsNeeded")
-    private fun shareReportIntent(uri: String) {
+    private fun shareImageIntent(uri: String) {
         val sendIntent = Intent(Intent.ACTION_SEND)
         sendIntent.putExtra(Intent.EXTRA_TEXT, uri)
         sendIntent.type = "text/plain"
@@ -101,11 +90,11 @@ class DetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.add_favorite -> {
-                photoGalleryViewModel.updateFavoriteStatus(photoEntity)
+                photoGalleryViewModel.updateFavoriteStatus()
                 true
             }
             R.id.share -> {
-                photoGalleryViewModel.photoDetail.value?.let { shareReportIntent(it.url) }
+                photoGalleryViewModel.photoDetail.value?.let { shareImageIntent(it.url) }
                 true
             }
             else -> super.onOptionsItemSelected(item)

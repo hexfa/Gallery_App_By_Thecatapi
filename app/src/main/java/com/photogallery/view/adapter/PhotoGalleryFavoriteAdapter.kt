@@ -7,15 +7,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.photogallery.R
-import com.photogallery.model.local.PhotoEntity
 import com.photogallery.databinding.ListItemPhotoGalleryBinding
+import com.photogallery.model.local.PhotoEntity
 import com.squareup.picasso.Picasso
 
-class PhotoGalleryFavoriteAdapter(
-    private val data: MutableList<PhotoEntity>?,
-) :
+class PhotoGalleryFavoriteAdapter :
     RecyclerView.Adapter<PhotoGalleryFavoriteAdapter.ViewHolder>() {
     var set: Set<String> = HashSet()
+    private var mData: List<PhotoEntity>? = null
+
+    fun setData(data: List<PhotoEntity>?) {
+        mData = data
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,12 +32,12 @@ class PhotoGalleryFavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val photo = data?.get(position)
+        val photo = mData?.get(position)
         photo?.let { holder.bind(it) }
     }
 
     override fun getItemCount(): Int {
-        return data!!.size
+        return mData!!.size
     }
 
     inner class ViewHolder(private var mBinding: ListItemPhotoGalleryBinding) :
